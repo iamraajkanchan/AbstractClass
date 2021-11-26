@@ -7,6 +7,7 @@ fun main(args: Array<String>) {
     operation(squareCabin)
     operation(roundTower)
 }
+
 fun operation(instance: Dwellings) {
     println("...................................................")
     with(instance) {
@@ -15,6 +16,9 @@ fun operation(instance: Dwellings) {
         println("Capacity          : $capacity")
         println("Has Room          : ${hasRoom()}")
         getRoom()
+        if (hasRoom()) {
+            println("Kindly make the payment of : Rs. $charges")
+        }
     }
     println("...................................................")
 }
@@ -23,6 +27,7 @@ abstract class Dwellings(private val resident: Int) {
     abstract val buildingMaterial: String
     abstract val capacity: Int
     abstract val name: String
+    abstract val charges: Double
 
     fun hasRoom(): Boolean {
         return capacity > resident
@@ -37,20 +42,23 @@ abstract class Dwellings(private val resident: Int) {
     }
 }
 
-open class RoundHut(private val resident: Int) : Dwellings(resident) {
+open class RoundHut(resident: Int) : Dwellings(resident) {
     override val buildingMaterial: String = "Straw"
     override val capacity: Int = 6
     override val name: String = "Round Hut"
+    override val charges: Double = (1500 * resident).toDouble()
 }
 
-class SquareCabin(private val resident: Int) : Dwellings(resident) {
+class SquareCabin(resident: Int) : Dwellings(resident) {
     override val buildingMaterial: String = "Wood"
     override val capacity: Int = 4
     override val name: String = "Square Cabin"
+    override val charges: Double = (3500 * resident).toDouble()
 }
 
-class RoundTower(private val resident: Int, private val floors: Int = 6) : RoundHut(resident) {
+class RoundTower(resident: Int, private val floors: Int = 6) : RoundHut(resident) {
     override val buildingMaterial: String = "Concrete"
     override val capacity: Int = floors * 4
     override val name: String = "Round Tower"
+    override val charges: Double = (750 * resident).toDouble()
 }
